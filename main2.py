@@ -1,7 +1,8 @@
 import pygame
 from build_stage import *
+from dialogue_box import *
 
-
+pygame.init()
 width, height = 500, 500
 keys = [0, 0, 0, 0]
 screen = pygame.display.set_mode((width, height))
@@ -13,12 +14,13 @@ timer = 0
 
 while 1:
     keys = [0, 0, 0, 0]
-    timer += 1
+    # timer += 1
     if timer >= 500:
         pygame.quit()
         exit(0)
     screen.fill(0)
     main(width, height, screen)
+    # create_dialogue_box(screen, "Hello")
     screen.blit(player, playerpos)
     pygame.display.flip()
     for event in pygame.event.get():
@@ -52,6 +54,6 @@ while 1:
     if keys[1] == 1 and playerpos[2] > 0:
         playerpos[0] -= 50
         playerpos[2] -= 1
-    elif keys[3] == 1 and playerpos[2] < 9:
+    elif keys[3] == 1 and playerpos[2] < 19:
         playerpos[0] += 50
         playerpos[2] += 1
