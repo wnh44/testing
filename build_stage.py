@@ -10,6 +10,8 @@ desk_top = pygame.image.load("resources/tiles/desk_top.png")
 desk_top_right = pygame.image.load("resources/tiles/desk_top_right.png")
 desk_top_left = pygame.image.load("resources/tiles/desk_top_left.png")
 desk_middle = pygame.image.load("resources/tiles/desk_middle.png")
+plant = pygame.image.load("resources/images/plant.png")
+gloria = pygame.image.load("resources/images/gloria.png")
 
 
 translate = {
@@ -25,42 +27,47 @@ translate = {
     "desk_m": desk_middle
 }
 
-map = []
+stage = []
 for x in range(20):
-    map.append([])
+    stage.append([])
     for y in range(10):
-        map[x].append("tile")
-map[5][5] = "desk_bl"
-map[5][4] = "desk_l"
-map[6][5] = "desk_b"
-map[6][4] = "tile"
-map[7][5] = "desk_b"
-map[7][4] = "tile"
-map[8][5] = "desk_br"
-map[8][4] = "desk_r"
+        stage[x].append("tile")
+stage[5][5] = "desk_bl"
+stage[5][4] = "desk_l"
+stage[6][5] = "desk_b"
+stage[6][4] = "tile"
+stage[7][5] = "desk_b"
+stage[7][4] = "tile"
+stage[8][5] = "desk_br"
+stage[8][4] = "desk_r"
+
+
 
 def main(screen, playerpos, keypress):
     # Left edge area
-    if playerpos["x"] <= 5:
-        # print("in left edge area")
+    if playerpos["x"] < 6:
         for x in range(10):
-            if keypress:
-                print(f"x: {x}")
             for y in range(10):
-                screen.blit(translate[map[x][y]], (x*50, y*50))
+                screen.blit(translate[stage[x][y]], (x * 50, y * 50))
+                if [x, y] == [6, 4]:
+                    screen.blit(gloria, (x * 50, y * 50))
 
     # Right edge area
-    elif playerpos["x"] >= 15:
-        for x in range(9, 20):
+    elif playerpos["x"] >= 16:
+        for x in range(10, 20):
             for y in range(10):
-                screen.blit(translate[map[x][y]], ((x-9) * 50, y * 50))
+                x_calc = x - 10
+                screen.blit(translate[stage[x][y]], (x_calc * 50, y * 50))
+                if [x, y] == [17, 4]:
+                    screen.blit(plant, (x_calc * 50, (y - 1) * 50))
 
     # Middle area
     else:
-        # print("in middle area")
         for x in range(playerpos["x"] - 5, playerpos["x"] + 5):
-            if keypress:
-                print(f"x: {x}", end=', ')
-                print(f"\nx - playerpos[x] + 5 = {x - playerpos['x'] + 5}")
             for y in range(10):
-                screen.blit(translate[map[x][y]], ((x - playerpos["x"] + 5) * 50, y * 50))
+                x_calc = x - playerpos["x"] + 5
+                screen.blit(translate[stage[x][y]], (x_calc * 50, y * 50))
+                if [x, y] == [17, 4]:
+                    screen.blit(plant, (x_calc * 50, (y - 1) * 50))
+                if [x, y] == [6, 4]:
+                    screen.blit(gloria, (x_calc * 50, y * 50))

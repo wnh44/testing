@@ -7,17 +7,15 @@ keypress = False
 width, height = 500, 500
 keys = {"w": 0, "a": 0, "s": 0, "d": 0}
 display = pygame.display.set_mode((width, height))
-border = []
+border = [[5, 4], [8, 4], [17, 4], [17, 3], [6, 4]]
 for y in range(-1, 11):
     border.append([-1, y])
     border.append([20, y])
 for x in range(-1, 21):
     border.append([x, 10])
     border.append([x, -1])
-for x in range(5, 7):
-    for y in range(4, 6):
-        border.append([x, y])
-        print(f"{x}, {y}")
+for x in range(5, 9):
+    border.append([x, 5])
 
 player = pygame.image.load("resources/images/caleb_extra_small.png")
 playerpos = {
@@ -85,7 +83,7 @@ while 1:
 
     #RIGHT
     if [playerpos["x"] + 1, playerpos["y"]] not in border:
-        if keys["d"] == 1 and (playerpos["x"] < 6 or 15 < playerpos["x"]):
+        if keys["d"] == 1 and (playerpos["x"] < 5 or 14 < playerpos["x"]):
             # in edge area
             # print("right in edge area, moving")
             playerpos["xpix"] += 50
@@ -101,5 +99,5 @@ while 1:
         if keys[i] == 1:
             # if playerpos['x'] in [5, 6]:
             keypress = True
-            print(f"player pixels (x, y):  = ({playerpos['xpix']}, {playerpos['ypix']})")
+            # print(f"player pixels (x, y):  = ({playerpos['xpix']}, {playerpos['ypix']})")
             print(f"player position (x, y):  = ({playerpos['x']}, {playerpos['y']})")
