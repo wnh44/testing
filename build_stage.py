@@ -33,29 +33,34 @@ for x in range(20):
 map[5][5] = "desk_bl"
 map[5][4] = "desk_l"
 map[6][5] = "desk_b"
-map[6][4] = "desk_m"
+map[6][4] = "tile"
 map[7][5] = "desk_b"
-map[7][4] = "desk_m"
+map[7][4] = "tile"
 map[8][5] = "desk_br"
 map[8][4] = "desk_r"
 
-def main(screen, playerpos):
+def main(screen, playerpos, keypress):
     # Left edge area
     if playerpos["x"] <= 5:
-        print("in left edge area")
+        # print("in left edge area")
         for x in range(10):
+            if keypress:
+                print(f"x: {x}")
             for y in range(10):
                 screen.blit(translate[map[x][y]], (x*50, y*50))
 
     # Right edge area
     elif playerpos["x"] >= 15:
-        for x in range(10, 20):
+        for x in range(9, 20):
             for y in range(10):
-                screen.blit(translate[map[x][y]], ((x-10) * 50, y * 50))
+                screen.blit(translate[map[x][y]], ((x-9) * 50, y * 50))
 
     # Middle area
     else:
-        print("in middle area")
-        for x in range(playerpos["x"] - 4, playerpos["x"] + 6):
+        # print("in middle area")
+        for x in range(playerpos["x"] - 5, playerpos["x"] + 5):
+            if keypress:
+                print(f"x: {x}", end=', ')
+                print(f"\nx - playerpos[x] + 5 = {x - playerpos['x'] + 5}")
             for y in range(10):
                 screen.blit(translate[map[x][y]], ((x - playerpos["x"] + 5) * 50, y * 50))

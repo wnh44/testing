@@ -3,6 +3,7 @@ from build_stage import *
 from dialogue_box import *
 
 pygame.init()
+keypress = False
 width, height = 500, 500
 keys = {"w": 0, "a": 0, "s": 0, "d": 0}
 display = pygame.display.set_mode((width, height))
@@ -35,7 +36,7 @@ while 1:
         pygame.quit()
         exit(0)
     display.fill(0)
-    main(display, playerpos)
+    main(display, playerpos, keypress)
     # create_dialogue_box(screen, "Hello")
     display.blit(player, [playerpos["xpix"], playerpos["ypix"]])
     pygame.display.flip()
@@ -95,8 +96,10 @@ while 1:
             # print("right in middle area, moving")
             playerpos["x"] += 1
 
+    keypress = False
     for i in ['w', 'a', 's', 'd']:
         if keys[i] == 1:
             # if playerpos['x'] in [5, 6]:
+            keypress = True
             print(f"player pixels (x, y):  = ({playerpos['xpix']}, {playerpos['ypix']})")
             print(f"player position (x, y):  = ({playerpos['x']}, {playerpos['y']})")
