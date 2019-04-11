@@ -1,6 +1,6 @@
 import pygame
 
-floor_tile = pygame.image.load("resources/tiles/floor_tile.png")
+floor_tile = pygame.image.load("resources/tiles/tile_2.png")
 desk_bottom_right = pygame.image.load("resources/tiles/desk_bottom_right.png")
 desk_right = pygame.image.load("resources/tiles/desk_right.png")
 desk_bottom_left = pygame.image.load("resources/tiles/desk_bottom_left.png")
@@ -12,6 +12,7 @@ desk_top_left = pygame.image.load("resources/tiles/desk_top_left.png")
 desk_middle = pygame.image.load("resources/tiles/desk_middle.png")
 plant = pygame.image.load("resources/images/plant.png")
 gloria = pygame.image.load("resources/images/gloria.png")
+elevator = pygame.image.load("resources/tiles/elevator.png")
 
 
 translate = {
@@ -24,7 +25,9 @@ translate = {
     "desk_tr": desk_top_right,
     "desk_tl": desk_top_left,
     "tile": floor_tile,
-    "desk_m": desk_middle
+    "desk_m": desk_middle,
+    "elevator": elevator,
+    "none": None
 }
 
 stage = []
@@ -40,15 +43,19 @@ stage[7][5] = "desk_b"
 stage[7][4] = "tile"
 stage[8][5] = "desk_br"
 stage[8][4] = "desk_r"
+stage[14][0] = "elevator"
+stage[15][0] = "none"
+stage[16][0] = "none"
 
 
 
-def main(screen, playerpos, keypress):
+def build_stage(screen, playerpos):
     # Left edge area
     if playerpos["x"] < 6:
         for x in range(10):
             for y in range(10):
-                screen.blit(translate[stage[x][y]], (x * 50, y * 50))
+                if translate[stage[x][y]]:
+                    screen.blit(translate[stage[x][y]], (x * 50, y * 50))
                 if [x, y] == [6, 4]:
                     screen.blit(gloria, (x * 50, y * 50))
 
@@ -57,7 +64,8 @@ def main(screen, playerpos, keypress):
         for x in range(10, 20):
             for y in range(10):
                 x_calc = x - 10
-                screen.blit(translate[stage[x][y]], (x_calc * 50, y * 50))
+                if translate[stage[x][y]]:
+                    screen.blit(translate[stage[x][y]], (x_calc * 50, y * 50))
                 if [x, y] == [17, 4]:
                     screen.blit(plant, (x_calc * 50, (y - 1) * 50))
 
@@ -66,7 +74,8 @@ def main(screen, playerpos, keypress):
         for x in range(playerpos["x"] - 5, playerpos["x"] + 5):
             for y in range(10):
                 x_calc = x - playerpos["x"] + 5
-                screen.blit(translate[stage[x][y]], (x_calc * 50, y * 50))
+                if translate[stage[x][y]]:
+                    screen.blit(translate[stage[x][y]], (x_calc * 50, y * 50))
                 if [x, y] == [17, 4]:
                     screen.blit(plant, (x_calc * 50, (y - 1) * 50))
                 if [x, y] == [6, 4]:
