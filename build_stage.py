@@ -1,4 +1,5 @@
 import pygame
+from dialogue_box import create_dialogue_box
 
 floor_tile = pygame.image.load("resources/tiles/tile_2.png")
 desk_bottom_right = pygame.image.load("resources/tiles/desk_bottom_right.png")
@@ -80,3 +81,6 @@ def build_stage(screen, playerpos):
                     screen.blit(plant, (x_calc * 50, (y - 1) * 50))
                 if [x, y] == [6, 4]:
                     screen.blit(gloria, (x_calc * 50, y * 50))
+
+    if playerpos["x"] == 6 and playerpos["y"] == 6:
+        create_dialogue_box(screen, "Hi, my name is Gloria. Welcome to Adtran!")
