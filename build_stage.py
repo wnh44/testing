@@ -1,28 +1,61 @@
 import pygame
 
 floor_tile = pygame.image.load("resources/tiles/floor_tile.png")
+desk_bottom_right = pygame.image.load("resources/tiles/desk_bottom_right.png")
+desk_right = pygame.image.load("resources/tiles/desk_right.png")
+desk_bottom_left = pygame.image.load("resources/tiles/desk_bottom_left.png")
+desk_left = pygame.image.load("resources/tiles/desk_left.png")
+desk_bottom = pygame.image.load("resources/tiles/desk_bottom.png")
+desk_top = pygame.image.load("resources/tiles/desk_top.png")
+desk_top_right = pygame.image.load("resources/tiles/desk_top_right.png")
+desk_top_left = pygame.image.load("resources/tiles/desk_top_left.png")
+desk_middle = pygame.image.load("resources/tiles/desk_middle.png")
+
+
+translate = {
+    "desk_br": desk_bottom_right,
+    "desk_r": desk_right,
+    "desk_b": desk_bottom,
+    "desk_bl": desk_bottom_left,
+    "desk_l": desk_left,
+    "desk_t": desk_top,
+    "desk_tr": desk_top_right,
+    "desk_tl": desk_top_left,
+    "tile": floor_tile,
+    "desk_m": desk_middle
+}
 
 map = []
-for i in range(10):
+for x in range(20):
     map.append([])
-    for j in range(20):
-        map[i].append("tile")
+    for y in range(10):
+        map[x].append("tile")
+map[5][5] = "desk_bl"
+map[5][4] = "desk_l"
+map[6][5] = "desk_b"
+map[6][4] = "desk_m"
+map[7][5] = "desk_b"
+map[7][4] = "desk_m"
+map[8][5] = "desk_br"
+map[8][4] = "desk_r"
 
-for i in range(2):
-    for j in range(2):
-        map[i+4][j+11] = "desk"
+def main(screen, playerpos):
+    # Left edge area
+    if playerpos["x"] <= 5:
+        print("in left edge area")
+        for x in range(10):
+            for y in range(10):
+                screen.blit(translate[map[x][y]], (x*50, y*50))
 
-for i in range(len(map)):
-    print("\n", end="")
-    for j in range(len(map[i])):
-        print(map[i][j], end=", ")
+    # Right edge area
+    elif playerpos["x"] >= 15:
+        for x in range(10, 20):
+            for y in range(10):
+                screen.blit(translate[map[x][y]], ((x-10) * 50, y * 50))
 
-show = 9
-
-def main(width, height, screen, player_pos):
-    # if player_pos[2] >= 5:
-    #     show += 1
-
-    for x in range(int(width/floor_tile.get_width()+1)):
-        for y in range(int(height/floor_tile.get_height()+1)):
-            screen.blit(floor_tile, (x*50, y*50))
+    # Middle area
+    else:
+        print("in middle area")
+        for x in range(playerpos["x"] - 4, playerpos["x"] + 6):
+            for y in range(10):
+                screen.blit(translate[map[x][y]], ((x - playerpos["x"] + 5) * 50, y * 50))
