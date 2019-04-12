@@ -3,6 +3,7 @@ from player_select import player_select
 from lobby import lobby_level
 from elevator import elevator_level
 from level_2 import level_2
+from stats_page import stats_page
 
 pygame.init()
 
@@ -30,6 +31,9 @@ while 1:
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_RETURN:
                 player = player_select()
+                while player == "Stats Page":
+                    stats_page()
+                    player = player_select()
                 next_level = "Lobby Level"
     if next_level:
         break

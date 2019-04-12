@@ -14,10 +14,13 @@ def level_2(player):
     into_the_elevator = False
     for y in range(-1, 11):
         border.append([-1, y])
-        border.append([15, y])
+        border.append([11, y])
     for x in range(-1, 15):
         border.append([x, 10])
         border.append([x, -1])
+    for x in range(0, 2):
+        for y in range(6, 8):
+            border.append([x, y])
 
     # stage variables
     stage = []
@@ -28,6 +31,10 @@ def level_2(player):
             #     stage[x].append("wall")
             # else:
             stage[x].append("tile")
+    stage[6][0] = "elevatorw"
+    stage[6][1] = "none"
+    stage[7][0] = "none"
+    stage[7][1] = "none"
 
     sprites = [
         [pygame.image.load("resources/images/caleb_extra_small.png"), [6, 4]],
@@ -50,8 +57,12 @@ def level_2(player):
         "x": 0,
         "y": 9
     }
+    timer = 0
 
     while 1:
+        if timer == 1000:
+            pygame.quit()
+            exit(0)
         keys = {"w": 0, "a": 0, "s": 0, "d": 0}
         display.fill(0)
         build_stage(display, playerpos, stage, style, sprites)
@@ -125,3 +136,4 @@ def level_2(player):
 
         if into_the_elevator:
             return "Elevator"
+        # timer += 1
