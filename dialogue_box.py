@@ -8,9 +8,10 @@ white = pygame.Color("white")
 font = pygame.font.Font('resources/fonts/chary.ttf', 24)
 
 
-def create_dialogue_box(screen, text, by_letter=False):
-    pygame.draw.rect(screen, blurple, pygame.Rect(20, 20, 460, 150))
-    pygame.draw.rect(screen, lighter, pygame.Rect(25, 25, 450, 140))
+def create_dialogue_box(screen, text, by_letter=False, box=True):
+    if box:
+        pygame.draw.rect(screen, blurple, pygame.Rect(20, 20, 460, 150))
+        pygame.draw.rect(screen, lighter, pygame.Rect(25, 25, 450, 140))
     pygame.display.update()
     text_letters = []
     for i in text:

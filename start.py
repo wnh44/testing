@@ -2,6 +2,7 @@ import pygame
 from player_select import player_select
 from lobby import lobby_level
 from elevator import elevator_level
+from level_2 import level_2
 
 pygame.init()
 
@@ -33,8 +34,12 @@ while 1:
     if next_level:
         break
 
-while next_level is not None:
+while 1:
     if next_level == "Elevator":
         next_level = elevator_level(player)
     elif next_level == "Lobby Level":
         next_level  = lobby_level(player)
+    elif next_level == "2":
+        next_level = level_2(player)
+    elif next_level == "3":
+        pass
