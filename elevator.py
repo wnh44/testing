@@ -9,16 +9,40 @@ def elevator_level():
     elevator_tile = pygame.image.load("resources/tiles/elevator_tile.png")
     player = pygame.image.load("resources/images/caleb_extra_small.png")
 
-    playerpos = [((500 - player.get_width()) // 2, (500 - player.get_height()) // 2)]
+    playerpos = {
+        "xpix": (500 - player.get_width()) // 2,
+        "ypix": (500 - player.get_height()) // 2,
+        "x": 0,
+        "y": 0
+    }
     print(playerpos)
 
     width, height = 500, 500
     display = pygame.display.set_mode((width, height))
     next_level = None
 
+    stage = []
+    for x in range(7):
+        stage.append([])
+        for y in range(7):
+            if y > 3 and x > 3:
+                stage[x].append("floor")
+            else:
+                stage[x].append("none")
+
+    style = {
+        "floor": elevator_tile,
+        "none": None
+    }
+
+    sprites = [
+        [pygame.image.load("resources/sprites/elevator_buttons.png"), [4, 6]]
+    ]
+
     while 1:
         display.fill(pygame.Color("black"))
-        display.blit(elevator_tile, ((500 - elevator_tile.get_width()) // 2, (500 - elevator_tile.get_height()) // 2))
+        build_stage(display, playerpos, stage, style, sprites)
+        # display.blit(elevator_tile, ((500 - elevator_tile.get_width()) // 2, (500 - elevator_tile.get_height()) // 2))
         display.blit(player, ((530 - elevator_tile.get_width()) // 2, (510 - elevator_tile.get_height()) // 2))
         # display.blit(text, ((500 - text.get_width()) // 2, (500 - text.get_height()) // 2))
         pygame.display.flip()

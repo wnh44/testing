@@ -37,8 +37,8 @@ def build_stage(screen, playerpos, stage, style, sprites):
 
     # Left edge area
     if playerpos["x"] < 6:
-        for x in range(10):
-            for y in range(10):
+        for x in range(min(10, stage_size["x"])):
+            for y in range(min(10, stage_size["y"])):
                 if style[stage[x][y]]:
                     screen.blit(style[stage[x][y]], (x * 50, y * 50))
 

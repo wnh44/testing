@@ -20,7 +20,6 @@ def create_dialogue_box(screen, text, by_letter=False):
         for i in range(by_letter[1]):
             text_object = font.render(text[i], True, white)
             screen.blit(text_object, (40, 40 + 20 * i))
-        print(f"by_letter[0]: {by_letter[0]}, by_letter[1]: {by_letter[1]}")
         text_object = font.render(text[by_letter[1]][:by_letter[0]], True, white)
         screen.blit(text_object, (40, 40 + 20 * by_letter[1]))
         if by_letter[0] < len(text[by_letter[1]]) - 1:

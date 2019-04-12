@@ -29,7 +29,7 @@ def lobby_level():
         stage.append([])
         for y in range(10):
             if y in [0, 1]:
-                stage[x].append("none")
+                stage[x].append("wall")
             else:
                 stage[x].append("tile")
     stage[5][5] = "desk_bl"
@@ -40,9 +40,18 @@ def lobby_level():
     stage[7][4] = "tile"
     stage[8][5] = "desk_br"
     stage[8][4] = "desk_r"
-    stage[14][2] = "elevator"
-    stage[15][2] = "none"
-    stage[16][2] = "none"
+    stage[14][0] = "elevatorw"
+    stage[14][1] = "none"
+    stage[15][0] = "none"
+    stage[15][1] = "none"
+    stage[2][0] = "windowl"
+    stage[2][1] = "none"
+    stage[3][0] = "windowr"
+    stage[3][1] = "none"
+    stage[8][0] = "windowl"
+    stage[8][1] = "none"
+    stage[9][0] = "windowr"
+    stage[9][1] = "none"
 
     player = pygame.image.load("resources/images/caleb_extra_small.png")
     sprites = [
@@ -62,7 +71,11 @@ def lobby_level():
         "tile": pygame.image.load("resources/tiles/tile_2.png"),
         "desk_m": pygame.image.load("resources/tiles/desk_middle.png"),
         "elevator": pygame.image.load("resources/tiles/elevator.png"),
-        "none": None
+        "none": None,
+        "wall": pygame.image.load("resources/tiles/wall_tile.png"),
+        "windowr": pygame.image.load("resources/tiles/window_right.png"),
+        "windowl": pygame.image.load("resources/tiles/window_left.png"),
+        "elevatorw": pygame.image.load("resources/tiles/elevator_wall.png")
     }
 
     playerpos = {
@@ -92,6 +105,8 @@ def lobby_level():
         else:
             gloria_speak = False
             by_letter = [0, 0]
+        if playerpos["x"] in [14, 15] and playerpos["y"] == 2:
+            create_popup(display, "Press Spacebar to Enter Elevator")
         pygame.display.flip()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -106,7 +121,7 @@ def lobby_level():
                     keys["s"] = 1
                 elif event.key == pygame.K_d or event.key == pygame.K_RIGHT:
                     keys["d"] = 1
-                elif event.key == pygame.K_SPACE and playerpos["x"] in [14, 15, 16] and playerpos["y"] == 2:
+                elif event.key == pygame.K_SPACE and playerpos["x"] in [14, 15] and playerpos["y"] == 2:
                     into_the_elevator = True
                 elif event.key == pygame.K_r and playerpos["x"] == 6 and playerpos["y"] == 6:
                     gloria_speak = True
@@ -152,9 +167,9 @@ def lobby_level():
                 # in middle area
                 playerpos["x"] += 1
 
-        # for i in ['w', 'a', 's', 'd']:
-        #     if keys[i] == 1:
-        #         print(f"player position (x, y):  = ({playerpos['x']}, {playerpos['y']})")
+        for i in ['w', 'a', 's', 'd']:
+            if keys[i] == 1:
+                print(f"player position (x, y):  = ({playerpos['x']}, {playerpos['y']})")
 
         if into_the_elevator:
             return "Elevator"

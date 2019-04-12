@@ -10,8 +10,6 @@ font = pygame.font.Font('resources/fonts/chary.ttf', 20)
 
 
 def create_popup(screen, text):
-    # pygame.draw.rect(screen, blurple, pygame.Rect(20, 20, 460, 150))
-    # pygame.draw.rect(screen, lighter, pygame.Rect(25, 25, 450, 140))
     text_object = font.render(text, True, black)
     text_list = text.split(" ")
     if text_object.get_width() < 440:
