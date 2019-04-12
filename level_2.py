@@ -1,7 +1,6 @@
 import pygame
 from build_stage import *
-# from dialogue_box import *
-# from popup import *
+from popup import create_popup
 from conversation import conversation
 
 
@@ -13,11 +12,11 @@ def level_2(player):
     caleb_speak = False
     caleb_speak_speed = False
     caleb_area = [[6, 5], [6, 3], [5, 4], [7, 4]]
+    elevator_area = [[6, 2], [7, 2]]
     caleb_text = ["psst... hey", "this is the ice lobby "]
     by_letter = [0, 0]
 
     border = [[6, 4]]
-    into_the_elevator = False
     for y in range(-1, 11):
         border.append([-1, y])
         border.append([11, y])
@@ -72,6 +71,8 @@ def level_2(player):
         display.blit(player, [playerpos["xpix"], playerpos["ypix"]])
         caleb_speak, caleb_speak_speed, by_letter = conversation(display, playerpos, caleb_area, caleb_text, by_letter,
                                                                  caleb_speak, caleb_speak_speed)
+        if [playerpos["x"], playerpos["y"]] in elevator_area:
+            create_popup(display, "Press Spacebar to Enter Elevator")
         pygame.display.flip()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -86,6 +87,9 @@ def level_2(player):
                     keys["s"] = 1
                 elif event.key == pygame.K_d or event.key == pygame.K_RIGHT:
                     keys["d"] = 1
+                elif event.key == pygame.K_SPACE:
+                    if [playerpos["x"], playerpos["y"]] in elevator_area:
+                        return "Elevator"
                 elif event.key == pygame.K_r:
                     if [playerpos["x"], playerpos["y"]] in caleb_area:
                         if caleb_speak:
@@ -136,7 +140,3 @@ def level_2(player):
         for i in ['w', 'a', 's', 'd']:
             if keys[i] == 1:
                 print(f"player position (x, y):  = ({playerpos['x']}, {playerpos['y']})")
-
-        if into_the_elevator:
-            return "Elevator"
-        # timer += 1
