@@ -1,7 +1,8 @@
 import pygame
 from build_stage import *
-from dialogue_box import *
-from popup import *
+# from dialogue_box import *
+# from popup import *
+from conversation import conversation
 
 
 def level_2(player):
@@ -9,6 +10,11 @@ def level_2(player):
     pygame.init()
     width, height = 500, 500
     display = pygame.display.set_mode((width, height))
+    caleb_speak = False
+    caleb_speak_speed = False
+    caleb_area = [[6, 5], [6, 3], [5, 4], [7, 4]]
+    caleb_text = ["psst... hey", "this is the ice lobby "]
+    by_letter = [0, 0]
 
     border = [[6, 4]]
     into_the_elevator = False
@@ -17,20 +23,17 @@ def level_2(player):
         border.append([11, y])
     for x in range(-1, 15):
         border.append([x, 10])
-        border.append([x, -1])
-    for x in range(0, 2):
-        for y in range(6, 8):
-            border.append([x, y])
+        border.append([x, 1])
 
     # stage variables
     stage = []
     for x in range(15):
         stage.append([])
         for y in range(10):
-            # if y in [0, 1]:
-            #     stage[x].append("wall")
-            # else:
-            stage[x].append("tile")
+            if y in [0, 1]:
+                stage[x].append("wall")
+            else:
+                stage[x].append("tile")
     stage[6][0] = "elevatorw"
     stage[6][1] = "none"
     stage[7][0] = "none"
@@ -67,9 +70,8 @@ def level_2(player):
         display.fill(0)
         build_stage(display, playerpos, stage, style, sprites)
         display.blit(player, [playerpos["xpix"], playerpos["ypix"]])
-
-        # if playerpos["x"] in [14, 15] and playerpos["y"] == 2:
-        #     create_popup(display, "Press Spacebar to Enter Elevator")
+        caleb_speak, caleb_speak_speed, by_letter = conversation(display, playerpos, caleb_area, caleb_text, by_letter,
+                                                                 caleb_speak, caleb_speak_speed)
         pygame.display.flip()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -84,10 +86,11 @@ def level_2(player):
                     keys["s"] = 1
                 elif event.key == pygame.K_d or event.key == pygame.K_RIGHT:
                     keys["d"] = 1
-                # elif event.key == pygame.K_SPACE and playerpos["x"] in [14, 15] and playerpos["y"] == 2:
-                #     into_the_elevator = True
-                # elif event.key == pygame.K_r and playerpos["x"] == 6 and playerpos["y"] == 6:
-                #     gloria_speak = True
+                elif event.key == pygame.K_r:
+                    if [playerpos["x"], playerpos["y"]] in caleb_area:
+                        if caleb_speak:
+                            caleb_speak_speed = True
+                        caleb_speak = True
             elif event.type == pygame.KEYUP:
                 if event.key == pygame.K_w or event.key == pygame.K_UP:
                     keys["w"] = 0

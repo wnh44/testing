@@ -5,17 +5,12 @@ import dialogue_box
 def elevator_level(player):
 
     pygame.init()
-    font = pygame.font.SysFont("comicsansms", 50)
-    text = font.render("Hello, World", True, pygame.Color("red"))
     elevator_tile = pygame.image.load("resources/tiles/elevator_tile.png")
 
     playerpos = {
-        "xpix": (500 - player.get_width()) // 2,
-        "ypix": (500 - player.get_height()) // 2,
         "x": 0,
         "y": 0
     }
-    # print(playerpos)
 
     width, height = 500, 500
     display = pygame.display.set_mode((width, height))

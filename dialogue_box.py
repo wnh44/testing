@@ -31,6 +31,11 @@ def create_dialogue_box(screen, text, by_letter=False, box=True):
         pygame.display.update()
         return by_letter
     else:
+        if type(text) == list:
+            for i in range(len(text)):
+                text_object = font.render(text[i], True, white)
+                screen.blit(text_object, (40, 40 + 20 * i))
+            return
         text_object = font.render(text, True, white)
         text_list = text.split(" ")
         if text_object.get_width() < 440:

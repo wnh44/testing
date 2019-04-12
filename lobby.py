@@ -2,6 +2,7 @@ import pygame
 from build_stage import *
 from dialogue_box import *
 from popup import *
+from conversation import conversation
 
 
 def lobby_level(player):
@@ -12,7 +13,11 @@ def lobby_level(player):
 
     border = [[5, 4], [8, 4], [17, 4], [17, 3], [6, 4]]
     gloria_speak = False
+    gloria_speak_speed = False
     by_letter = [0, 0]
+    gloria_area = [[6, 6], [6, 3], [7, 6], [7, 4]]
+    gloria_text = ["Hi! My name is Gloria. Welcome to", "Adtran! We've got a lot for you to get",
+                   "started on, so go ahead and head to", "the elevator on your right. "]
     into_the_elevator = False
     for y in range(-1, 11):
         border.append([-1, y])
@@ -91,19 +96,8 @@ def lobby_level(player):
         display.blit(player, [playerpos["xpix"], playerpos["ypix"]])
 
         # Gloria conversation
-        if (playerpos["x"] == 6 and playerpos["y"] == 6) or (playerpos["x"] == 6 and playerpos["y"] == 3) or (playerpos["x"] == 7 and playerpos["y"] == 6) or (playerpos["x"] == 7 and playerpos["y"] == 4):
-            if gloria_speak:
-                by_letter = create_dialogue_box(display, ["Hi! My name is Gloria. Welcome to",
-                                                          "Adtran! We've got a lot for you to get",
-                                                          "started on, so go ahead and head to",
-                                                          "the elevator on your right. "], by_letter)
-                # create_dialogue_box(display, "Hi! My name is Gloria. Welcome to Adtran! We've got a lot for you to get "
-                #                              "started on, so go ahead and head to the elevator on your right.")
-            else:
-                create_popup(display, "Press R to Speak")
-        else:
-            gloria_speak = False
-            by_letter = [0, 0]
+        gloria_speak, gloria_speak_speed, by_letter = conversation(display, playerpos, gloria_area, gloria_text,
+                                                                   by_letter, gloria_speak, gloria_speak_speed)
         if playerpos["x"] in [14, 15] and playerpos["y"] == 2:
             create_popup(display, "Press Spacebar to Enter Elevator")
         pygame.display.flip()
@@ -122,8 +116,11 @@ def lobby_level(player):
                     keys["d"] = 1
                 elif event.key == pygame.K_SPACE and playerpos["x"] in [14, 15] and playerpos["y"] == 2:
                     into_the_elevator = True
-                elif event.key == pygame.K_r and (playerpos["x"] == 6 and playerpos["y"] == 6) or (playerpos["x"] == 6 and playerpos["y"] == 3) or (playerpos["x"] == 7 and playerpos["y"] == 6) or (playerpos["x"] == 7 and playerpos["y"] == 4):
-                    gloria_speak = True
+                elif event.key == pygame.K_r:
+                    if gloria_speak is True:
+                        gloria_speak_speed = True
+                    if [playerpos["x"], playerpos["y"]] in gloria_area:
+                        gloria_speak = True
             elif event.type == pygame.KEYUP:
                 if event.key == pygame.K_w or event.key == pygame.K_UP:
                     keys["w"] = 0
