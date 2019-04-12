@@ -1,11 +1,14 @@
 import pygame
 from build_stage import *
 from dialogue_box import *
+
+
 def main():
 
     pygame.init()
     width, height = 500, 500
     display = pygame.display.set_mode((width, height))
+
     border = [[5, 4], [8, 4], [17, 4], [17, 3], [6, 4]]
     into_the_elevator = False
     for y in range(-1, 11):
@@ -17,7 +20,44 @@ def main():
     for x in range(5, 9):
         border.append([x, 5])
 
+    stage = []
+    for x in range(20):
+        stage.append([])
+        for y in range(10):
+            stage[x].append("tile")
+    stage[5][5] = "desk_bl"
+    stage[5][4] = "desk_l"
+    stage[6][5] = "desk_b"
+    stage[6][4] = "tile"
+    stage[7][5] = "desk_b"
+    stage[7][4] = "tile"
+    stage[8][5] = "desk_br"
+    stage[8][4] = "desk_r"
+    stage[14][0] = "elevator"
+    stage[15][0] = "none"
+    stage[16][0] = "none"
+
     player = pygame.image.load("resources/images/caleb_extra_small.png")
+    sprites = [
+        [pygame.image.load("resources/images/gloria.png"), [6, 4]],
+        [pygame.image.load("resources/images/plant.png"), [17, 3]]
+    ]
+
+    style = {
+        "desk_br": pygame.image.load("resources/tiles/desk_bottom_right.png"),
+        "desk_r": pygame.image.load("resources/tiles/desk_right.png"),
+        "desk_b": pygame.image.load("resources/tiles/desk_bottom.png"),
+        "desk_bl": pygame.image.load("resources/tiles/desk_bottom_left.png"),
+        "desk_l": pygame.image.load("resources/tiles/desk_left.png"),
+        "desk_t": pygame.image.load("resources/tiles/desk_top.png"),
+        "desk_tr": pygame.image.load("resources/tiles/desk_top_right.png"),
+        "desk_tl": pygame.image.load("resources/tiles/desk_top_left.png"),
+        "tile": pygame.image.load("resources/tiles/tile_2.png"),
+        "desk_m": pygame.image.load("resources/tiles/desk_middle.png"),
+        "elevator": pygame.image.load("resources/tiles/elevator.png"),
+        "none": None
+    }
+
     playerpos = {
         "xpix": 15,
         "ypix": (500 - player.get_height()),
@@ -34,8 +74,10 @@ def main():
         #     pygame.quit()
         #     exit(0)
         display.fill(0)
-        build_stage(display, playerpos)
+        build_stage(display, playerpos, stage, style, sprites)
         display.blit(player, [playerpos["xpix"], playerpos["ypix"]])
+        if playerpos["x"] == 6 and playerpos["y"] == 6:
+            create_dialogue_box(display, "Hi, my name is Gloria. Welcome to Adtran!")
         pygame.display.flip()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -61,6 +103,7 @@ def main():
                     keys["s"] = 0
                 elif event.key == pygame.K_d or event.key == pygame.K_RIGHT:
                     keys["d"] = 0
+
         #UP
         if keys["w"] == 1 and [playerpos["x"], playerpos["y"] - 1] not in border:
             playerpos["ypix"] -= 50
