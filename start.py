@@ -42,7 +42,7 @@ while 1:
     if next_level == "Elevator":
         next_level = elevator_level(player)
     elif next_level == "Lobby Level":
-        next_level  = lobby_level(player)
+        next_level = lobby_level(player)
     elif next_level == "2":
         next_level = level_2(player)
     elif next_level == "3":
