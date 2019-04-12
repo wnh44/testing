@@ -2,12 +2,14 @@ import pygame
 from build_stage import *
 import dialogue_box
 
-def elevator_level(player):
 
+def elevator_level(player):
     pygame.init()
     elevator_tile = pygame.image.load("resources/tiles/elevator_tile.png")
 
     playerpos = {
+        "xpix": 300,
+        "ypix": 300,
         "x": 0,
         "y": 0
     }
@@ -34,11 +36,10 @@ def elevator_level(player):
         [pygame.image.load("resources/sprites/elevator_buttons.png"), [4, 6]]
     ]
 
-
     while 1:
         display.fill(pygame.Color("black"))
         build_stage(display, playerpos, stage, style, sprites)
-        display.blit(player, ((530 - elevator_tile.get_width()) // 2, (510 - elevator_tile.get_height()) // 2))
+        display.blit(player, ((550 - elevator_tile.get_width()) // 2, (550 - elevator_tile.get_height()) // 2))
         dialogue_box.create_dialogue_box(display, "1: Lobby   2: Ice   3: Desert", False, False)
         pygame.display.flip()
         for event in pygame.event.get():

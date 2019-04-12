@@ -88,6 +88,7 @@ def lobby_level(player):
         "x": 0,
         "y": 9
     }
+    gloria_talked = False
 
     while 1:
         keys = {"w": 0, "a": 0, "s": 0, "d": 0}
@@ -98,8 +99,27 @@ def lobby_level(player):
         # Gloria conversation
         gloria_speak, gloria_speak_speed, by_letter = conversation(display, playerpos, gloria_area, gloria_text,
                                                                    by_letter, gloria_speak, gloria_speak_speed)
+
+        if (playerpos["x"] == 6 and playerpos["y"] in [6, 3]) or (playerpos["x"] == 7 and playerpos["y"] in [6, 4]):
+            if gloria_speak:
+                by_letter = create_dialogue_box(display, ["Hi! My name is Gloria. Welcome to",
+                                                          "Adtran! We've got a lot for you to get",
+                                                          "started on, so go ahead and head to",
+                                                          "the elevator on your right. "], by_letter)
+                # create_dialogue_box(display, "Hi! My name is Gloria. Welcome to Adtran! We've got a lot for you to get "
+                #                              "started on, so go ahead and head to the elevator on your right.")
+            else:
+                create_popup(display, "Press R to Speak")
+        else:
+            gloria_speak = False
+            by_letter = [0, 0]
+
         if playerpos["x"] in [14, 15] and playerpos["y"] == 2:
-            create_popup(display, "Press Spacebar to Enter Elevator")
+            if gloria_talked:
+                create_popup(display, "Press Spacebar to Enter Elevator")
+            else:
+                create_popup(display, "Adtran badge needed")
+
         pygame.display.flip()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -114,13 +134,16 @@ def lobby_level(player):
                     keys["s"] = 1
                 elif event.key == pygame.K_d or event.key == pygame.K_RIGHT:
                     keys["d"] = 1
-                elif event.key == pygame.K_SPACE and playerpos["x"] in [14, 15] and playerpos["y"] == 2:
+                elif event.key == pygame.K_SPACE and playerpos["x"] in [14, 15] and playerpos["y"] == 2 and gloria_talked is True:
                     into_the_elevator = True
+
                 elif event.key == pygame.K_r:
                     if gloria_speak is True:
                         gloria_speak_speed = True
                     if [playerpos["x"], playerpos["y"]] in gloria_area:
                         gloria_speak = True
+                        gloria_talked = True
+
             elif event.type == pygame.KEYUP:
                 if event.key == pygame.K_w or event.key == pygame.K_UP:
                     keys["w"] = 0
