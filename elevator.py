@@ -53,7 +53,7 @@ def elevator_level(player):
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_2:
                     next_level = "2"
-                elif event.key == pygame.K_3:
-                    next_level = "3"
+                # elif event.key == pygame.K_3:
+                #     next_level = "3"
         if next_level is not None:
             return next_level
