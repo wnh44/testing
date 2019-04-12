@@ -122,7 +122,7 @@ def lobby_level(player):
                     keys["d"] = 1
                 elif event.key == pygame.K_SPACE and playerpos["x"] in [14, 15] and playerpos["y"] == 2:
                     into_the_elevator = True
-                elif event.key == pygame.K_r and playerpos["x"] == 6 and playerpos["y"] == 6:
+                elif event.key == pygame.K_r and (playerpos["x"] == 6 and playerpos["y"] == 6) or (playerpos["x"] == 6 and playerpos["y"] == 3) or (playerpos["x"] == 7 and playerpos["y"] == 6) or (playerpos["x"] == 7 and playerpos["y"] == 4):
                     gloria_speak = True
             elif event.type == pygame.KEYUP:
                 if event.key == pygame.K_w or event.key == pygame.K_UP:
