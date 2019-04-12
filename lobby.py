@@ -91,7 +91,7 @@ def lobby_level(player):
         display.blit(player, [playerpos["xpix"], playerpos["ypix"]])
 
         # Gloria conversation
-        if playerpos["x"] == 6 and playerpos["y"] == 6:
+        if (playerpos["x"] == 6 and playerpos["y"] == 6) or (playerpos["x"] == 6 and playerpos["y"] == 3) or (playerpos["x"] == 7 and playerpos["y"] == 6) or (playerpos["x"] == 7 and playerpos["y"] == 4):
             if gloria_speak:
                 by_letter = create_dialogue_box(display, ["Hi! My name is Gloria. Welcome to",
                                                           "Adtran! We've got a lot for you to get",
