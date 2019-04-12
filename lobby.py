@@ -1,6 +1,7 @@
 import pygame
 from build_stage import *
 from dialogue_box import *
+from popup import *
 
 
 def lobby_level():
@@ -10,21 +11,27 @@ def lobby_level():
     display = pygame.display.set_mode((width, height))
 
     border = [[5, 4], [8, 4], [17, 4], [17, 3], [6, 4]]
+    gloria_speak = False
+    by_letter = [0, 0]
     into_the_elevator = False
     for y in range(-1, 11):
         border.append([-1, y])
         border.append([20, y])
     for x in range(-1, 21):
         border.append([x, 10])
-        border.append([x, -1])
+        border.append([x, 1])
     for x in range(5, 9):
         border.append([x, 5])
 
+    # stage variables
     stage = []
     for x in range(20):
         stage.append([])
         for y in range(10):
-            stage[x].append("tile")
+            if y in [0, 1]:
+                stage[x].append("none")
+            else:
+                stage[x].append("tile")
     stage[5][5] = "desk_bl"
     stage[5][4] = "desk_l"
     stage[6][5] = "desk_b"
@@ -33,9 +40,9 @@ def lobby_level():
     stage[7][4] = "tile"
     stage[8][5] = "desk_br"
     stage[8][4] = "desk_r"
-    stage[14][0] = "elevator"
-    stage[15][0] = "none"
-    stage[16][0] = "none"
+    stage[14][2] = "elevator"
+    stage[15][2] = "none"
+    stage[16][2] = "none"
 
     player = pygame.image.load("resources/images/caleb_extra_small.png")
     sprites = [
@@ -64,21 +71,27 @@ def lobby_level():
         "x": 0,
         "y": 9
     }
-    timer = 0
-
 
     while 1:
         keys = {"w": 0, "a": 0, "s": 0, "d": 0}
-        timer += 1
-        # if timer >= 800:
-        #     pygame.quit()
-        #     exit(0)
         display.fill(0)
         build_stage(display, playerpos, stage, style, sprites)
         display.blit(player, [playerpos["xpix"], playerpos["ypix"]])
+
+        # Gloria conversation
         if playerpos["x"] == 6 and playerpos["y"] == 6:
-            create_dialogue_box(display, "Hi, my name is Gloria. Welcome to Adtran! We've got a lot for you to get "
-                                         "started on, so go ahead and head to the elevator please.")
+            if gloria_speak:
+                by_letter = create_dialogue_box(display, ["Hi! My name is Gloria. Welcome to",
+                                                          "Adtran! We've got a lot for you to get",
+                                                          "started on, so go ahead and head to",
+                                                          "the elevator on your right. "], by_letter)
+                # create_dialogue_box(display, "Hi! My name is Gloria. Welcome to Adtran! We've got a lot for you to get "
+                #                              "started on, so go ahead and head to the elevator on your right.")
+            else:
+                create_popup(display, "Press R to Speak")
+        else:
+            gloria_speak = False
+            by_letter = [0, 0]
         pygame.display.flip()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -93,8 +106,10 @@ def lobby_level():
                     keys["s"] = 1
                 elif event.key == pygame.K_d or event.key == pygame.K_RIGHT:
                     keys["d"] = 1
-                elif event.key == pygame.K_SPACE and playerpos["x"] in [14, 15, 16] and playerpos["y"] == 0:
+                elif event.key == pygame.K_SPACE and playerpos["x"] in [14, 15, 16] and playerpos["y"] == 2:
                     into_the_elevator = True
+                elif event.key == pygame.K_r and playerpos["x"] == 6 and playerpos["y"] == 6:
+                    gloria_speak = True
             elif event.type == pygame.KEYUP:
                 if event.key == pygame.K_w or event.key == pygame.K_UP:
                     keys["w"] = 0
@@ -137,9 +152,9 @@ def lobby_level():
                 # in middle area
                 playerpos["x"] += 1
 
-        for i in ['w', 'a', 's', 'd']:
-            if keys[i] == 1:
-                print(f"player position (x, y):  = ({playerpos['x']}, {playerpos['y']})")
+        # for i in ['w', 'a', 's', 'd']:
+        #     if keys[i] == 1:
+        #         print(f"player position (x, y):  = ({playerpos['x']}, {playerpos['y']})")
 
         if into_the_elevator:
             return "Elevator"
