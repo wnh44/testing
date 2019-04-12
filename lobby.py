@@ -3,7 +3,7 @@ from build_stage import *
 from dialogue_box import *
 
 
-def main():
+def lobby_level():
 
     pygame.init()
     width, height = 500, 500
@@ -77,7 +77,8 @@ def main():
         build_stage(display, playerpos, stage, style, sprites)
         display.blit(player, [playerpos["xpix"], playerpos["ypix"]])
         if playerpos["x"] == 6 and playerpos["y"] == 6:
-            create_dialogue_box(display, "Hi, my name is Gloria. Welcome to Adtran!")
+            create_dialogue_box(display, "Hi, my name is Gloria. Welcome to Adtran! We've got a lot for you to get "
+                                         "started on, so go ahead and head to the elevator please.")
         pygame.display.flip()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:

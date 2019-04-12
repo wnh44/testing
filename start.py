@@ -1,5 +1,5 @@
 import pygame
-from main2 import main
+from lobby import lobby_level
 from elevator import elevator_level
 
 pygame.init()
@@ -7,15 +7,19 @@ pygame.init()
 width, height = 500, 500
 display = pygame.display.set_mode((width, height))
 next_level = None
+font = pygame.font.Font("resources/fonts/astron boy.ttf", 50)
+font2 = pygame.font.Font("resources/fonts/astron boy.ttf", 35)
 
 while 1:
-    display.fill(pygame.Color("dodgerblue"))
-    font = pygame.font.Font(None, 50)
-    font2 = pygame.font.Font(None, 30)
+    display.fill(pygame.Color(84, 64, 205))
     text = font.render("Welcome to Adtran!", True, pygame.Color("white"))
-    text2 = font2.render("Press Enter to get started", True, pygame.Color("white"))
-    display.blit(text, ((500 - text.get_width()) // 2, (500 - text.get_height()) // 2))
-    display.blit(text2, (((500 - text2.get_width()) // 2), ((500 - text2.get_height()) // 2) + 100))
+    text2 = font2.render("Press Enter to get started", False, pygame.Color("white"))
+    text_rects = [text.get_rect(), text2.get_rect()]
+    text_rects[0].centerx, text_rects[1].centerx = display.get_rect().centerx, display.get_rect().centerx
+    text_rects[0].y = display.get_rect().centery/2
+    text_rects[1].y = display.get_rect().centery * (3/2)
+    display.blit(text, text_rects[0])
+    display.blit(text2, text_rects[1])
     pygame.display.flip()
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -23,7 +27,7 @@ while 1:
             exit(0)
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_RETURN:
-                next_level = main()
+                next_level = lobby_level()
     if next_level:
         break
 

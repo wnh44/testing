@@ -27,4 +27,4 @@ def elevator_level():
                 pygame.quit()
                 exit(0)
 
-elevator_level()
+# elevator_level()
