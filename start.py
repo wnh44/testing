@@ -1,4 +1,5 @@
 import pygame
+from player_select import player_select
 from lobby import lobby_level
 from elevator import elevator_level
 
@@ -27,9 +28,13 @@ while 1:
             exit(0)
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_RETURN:
-                next_level = lobby_level()
+                player = player_select()
+                next_level = "Lobby Level"
     if next_level:
         break
 
-if next_level == "Elevator":
-    next_level = elevator_level()
+while next_level is not None:
+    if next_level == "Elevator":
+        next_level = elevator_level(player)
+    elif next_level == "Lobby Level":
+        next_level  = lobby_level(player)

@@ -1,13 +1,12 @@
 import pygame
 from build_stage import *
 
-def elevator_level():
+def elevator_level(player):
 
     pygame.init()
     font = pygame.font.SysFont("comicsansms", 50)
     text = font.render("Hello, World", True, pygame.Color("red"))
     elevator_tile = pygame.image.load("resources/tiles/elevator_tile.png")
-    player = pygame.image.load("resources/images/caleb_extra_small.png")
 
     playerpos = {
         "xpix": (500 - player.get_width()) // 2,

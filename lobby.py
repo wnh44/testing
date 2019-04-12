@@ -4,7 +4,7 @@ from dialogue_box import *
 from popup import *
 
 
-def lobby_level():
+def lobby_level(player):
 
     pygame.init()
     width, height = 500, 500
@@ -53,7 +53,6 @@ def lobby_level():
     stage[9][0] = "windowr"
     stage[9][1] = "none"
 
-    player = pygame.image.load("resources/images/caleb_extra_small.png")
     sprites = [
         [pygame.image.load("resources/images/gloria.png"), [6, 4]],
         [pygame.image.load("resources/images/plant.png"), [17, 3]]
@@ -79,7 +78,7 @@ def lobby_level():
     }
 
     playerpos = {
-        "xpix": 15,
+        "xpix": 50 / player.get_width(),
         "ypix": (500 - player.get_height()),
         "x": 0,
         "y": 9
