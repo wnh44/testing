@@ -34,14 +34,14 @@ while 1:
                 while player == "Stats Page":
                     stats_page()
                     player = player_select()
-                next_level = "Lobby Level"
+                next_level = "Lobby"
     if next_level:
         break
 
 while 1:
     if next_level == "Elevator":
         next_level = elevator_level(player)
-    elif next_level == "Lobby Level":
+    elif next_level == "Lobby":
         next_level  = lobby_level(player)
     elif next_level == "2":
         next_level = level_2(player)

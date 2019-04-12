@@ -92,7 +92,7 @@ def lobby_level(player):
     while 1:
         keys = {"w": 0, "a": 0, "s": 0, "d": 0}
         display.fill(0)
-        build_stage(display, playerpos, stage, style, sprites)
+        build_stage(display, playerpos, stage, style, sprites, True)
         display.blit(player, [playerpos["xpix"], playerpos["ypix"]])
 
         # Gloria conversation
